@@ -1,0 +1,37 @@
+Option Compare Database
+Option Explicit
+
+'''''''
+' BENCHMARKING
+'
+' REQUIRES: log_event()
+'''''''
+
+' Start time
+Private dStartTime As Double
+' date format
+Private strDateFormat As String
+
+
+'''
+' Start the timer
+'''
+Public Sub BM_startTimer(Optional ByVal strevent As String = "")
+    strDateFormat = "dd/mm/yyyy hh:nn:ss"
+    dStartTime = Now()
+    
+    log_event "Benchmarker" & IIf("" = strevent, "", " for '" & strevent) & "' started at " & Format(dStartTime, strDateFormat), ioMessage, False
+End Sub
+
+
+'''
+' Stop the timer (returns time elapsed)
+'''
+Public Function BM_stopTimer(Optional ByVal strevent As String = "") As String
+    Dim dStopTime As Double
+    
+    dStopTime = Now()
+    
+    BM_stopTimer = Format(dStopTime - dStartTime, "hh:nn:ss")
+    log_event "Benchmarker" & IIf("" = strevent, "", " for " & strevent) & " stopped at " & Format(dStopTime, strDateFormat) & " - elapsed time: " & BM_stopTimer, ioMessage, False
+End Function
